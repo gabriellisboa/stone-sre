@@ -1,0 +1,18 @@
+version: "2"
+services:
+  backend: 
+    build: ./app
+    ports: ["8080:8080"]
+    volumes:
+      - type: volume
+        source: log-data
+        target: /var/log/app
+  fluent-bit:
+    image: fluent/fluent-bit:2.0.9
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - type: volume
+        source: log-data
+        target: /var/log/app
+volumes:
+  log-data:
